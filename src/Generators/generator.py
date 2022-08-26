@@ -20,22 +20,19 @@ def GetMiddleNumber(seed, length):
 def CalculateRandom(number, length):
     return number / math.pow(10, length)
 
-def ProductosMedios(firstSeed, secondSeed, total, randomNumbers = []):
+def ProductosMedios(firstSeed, secondSeed, total, randomNumbers = [], calls = 0, length = 0):
     if total == 0:
         return randomNumbers
     
-    firstSeedLength = len(str(firstSeed))
-    secondSeedLength = len(str(secondSeed))
-    
-    if firstSeedLength != secondSeedLength:
-        return
+    if calls == 0:
+        length = len(str(firstSeed))
     
     productSeed = firstSeed * secondSeed
     
-    middleNumber = GetMiddleNumber(productSeed, firstSeedLength)
-    randomNumbers.append(CalculateRandom(middleNumber, firstSeedLength))
+    middleNumber = GetMiddleNumber(productSeed, length)
+    randomNumbers.append(CalculateRandom(middleNumber, length))
     
-    return ProductosMedios(secondSeed, middleNumber, total - 1, randomNumbers)
+    return ProductosMedios(secondSeed, middleNumber, total - 1, randomNumbers, calls + 1, length)
 
 def CuadradosMedios(seed, total, randomNumbers = [], calls = 0, length = 0):
     if total == 0:
@@ -49,4 +46,4 @@ def CuadradosMedios(seed, total, randomNumbers = [], calls = 0, length = 0):
     middleNumber = GetMiddleNumber(square, length)
     randomNumbers.append(CalculateRandom(middleNumber, length))
     
-    return CuadradosMedios(middleNumber, total - 1, randomNumbers, calls + 1, length)
+    return CuadradosMedios(middleNumber, total - 1, randomNumbers, calls + 1, length)    
