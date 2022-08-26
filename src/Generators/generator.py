@@ -46,9 +46,9 @@ def CuadradosMedios(seed, total, randomNumbers = [], calls = 0, length = 0):
     middleNumber = GetMiddleNumber(square, length)
     randomNumbers.append(CalculateRandom(middleNumber, length))
     
-    return CuadradosMedios(middleNumber, total - 1, randomNumbers, calls + 1, length)    
+    return CuadradosMedios(middleNumber, total - 1, randomNumbers, calls + 1, length)
 
-def MultiplicadorConstante(constSeed, seed, total, randomNumber = [], calls = 0, length = 0):
+def MultiplicadorConstante(constSeed, seed, total, randomNumbers = [], calls = 0, length = 0):
     if total == 0:
         return randomNumbers
     
