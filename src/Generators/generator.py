@@ -1,4 +1,5 @@
 import math
+from sympy import isprime
 
 def GetMiddleNumber(seed, length):
     seedLength = len(str(seed))
@@ -61,3 +62,19 @@ def MultiplicadorConstante(constSeed, seed, total, randomNumbers = [], calls = 0
     randomNumbers.append(CalculateRandom(middleNumber, length))
     
     return MultiplicadorConstante(constSeed, middleNumber, total - 1, randomNumbers, calls + 1, length)
+
+def Lineal(seed, k, g, c, total, randomNumbers = []):
+    if total == 0:
+        return randomNumbers
+    
+    if not isprime(c):
+        print("Parameter C = %d is not a prime number. Returning empty list." % c)
+        return
+    
+    a = 1 + 4 * k
+    m = math.pow(2, g)
+    newSeed = (a * seed + c) % m
+    randomNumbers.append(newSeed / (m - 1))
+    
+    return Lineal(newSeed, k, g, c, total - 1, randomNumbers)
+    
