@@ -1,11 +1,21 @@
 import math
 
-def GetMiddleNumber(productSeed, length):
-    productLength = len(str(productSeed))
-    for i in range(0, length * 2 + ((productLength - length) % length) - productLength):
-        productSeed = '0' + str(productSeed)
+def GetMiddleNumber(seed, length):
+    seedLength = len(str(seed))
     
-    return int(str(productSeed)[length // 2:length // 2 + length])
+    # Right elimination
+    seed = str(seed)[0:seedLength - 1]
+    seedLength = len(str(seed))
+    if seedLength == length:
+        return int(seed)
+    
+    # Left elimination
+    seed = str(seed)[1: seedLength]
+    seedLength = len(str(seed))
+    if seedLength == length:
+        return int(seed)
+    
+    return GetMiddleNumber(seed, length)
 
 def CalculateRandom(number, length):
     return number / math.pow(10, length)
