@@ -36,3 +36,17 @@ def ProductosMedios(firstSeed, secondSeed, total, randomNumbers = []):
     randomNumbers.append(CalculateRandom(middleNumber, firstSeedLength))
     
     return ProductosMedios(secondSeed, middleNumber, total - 1, randomNumbers)
+
+def CuadradosMedios(seed, total, randomNumbers = [], calls = 0, length = 0):
+    if total == 0:
+        return randomNumbers
+    
+    if calls == 0:
+        length = len(str(seed))
+        
+    square = seed * seed
+    
+    middleNumber = GetMiddleNumber(square, length)
+    randomNumbers.append(CalculateRandom(middleNumber, length))
+    
+    return CuadradosMedios(middleNumber, total - 1, randomNumbers, calls + 1, length)
