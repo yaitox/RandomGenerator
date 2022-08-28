@@ -160,5 +160,3 @@ def Input():
         print("An error occurred at input. Tried to convert the input to int but exception was found.")
     
     return GenerateRandomNumbers(generatorType)
-    
-                
