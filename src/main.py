@@ -1,8 +1,8 @@
 import sys
 sys.path.insert(0, 'D:\Pseudorandom-Generator\PseudorandomGenerator\src\Generators')
 
-from generator import GenerateRandomNumbers, GeneratorType
+from generator import Input
 
 if __name__ == '__main__':
-    numbers = GenerateRandomNumbers(GeneratorType.GENERATOR_MULTIPLICADOR_CONSTANTE)
+    numbers = Input()
     print(numbers)

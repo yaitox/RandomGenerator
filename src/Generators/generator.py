@@ -141,4 +141,24 @@ def GenerateRandomNumbers(generatorType):
             print("An error occurred at input. Tried to convert the input to int but exception was found. Returning empty list")
 
         return Lineal(seed, k, g, c, total)
+    
+def Input():
+    print("Please enter a generator type:")
+    print("1 - Productos medios")
+    print("2 - Cuadrados medios")
+    print("3 - Multiplicador constante")
+    print("4 - Lineal")
+    generatorType = 0
+    
+    try:
+        generatorType = int(input("Generator type: "))
+        try:
+            generatorType = GeneratorType(generatorType)
+        except:
+            print("Generator type not valid. Tried to enter type = %d." % generatorType)
+    except:
+        print("An error occurred at input. Tried to convert the input to int but exception was found.")
+    
+    return GenerateRandomNumbers(generatorType)
+    
                 
