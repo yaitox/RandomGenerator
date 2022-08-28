@@ -4,6 +4,8 @@ from enum import Enum
 
 def GetMiddleNumber(seed, length):
     seedLength = len(str(seed))
+    if seedLength == 0:
+        return 0
     
     # Right elimination
     seed = str(seed)[0:seedLength - 1]
