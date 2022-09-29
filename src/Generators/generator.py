@@ -62,8 +62,7 @@ def Lineal(seed, k, g, c, total, randomNumbers = []):
         return randomNumbers
     
     if not isprime(c):
-        print("Parameter C = %d is not a prime number. Returning empty list." % c)
-        return
+        print("Warning. C = %d is not a prime number." % c)
     
     a = 1 + 4 * k
     m = math.pow(2, g)
@@ -71,12 +70,59 @@ def Lineal(seed, k, g, c, total, randomNumbers = []):
     randomNumbers.append(newSeed / (m - 1))
     
     return Lineal(newSeed, k, g, c, total - 1, randomNumbers)
+
+def CongruencialMultiplicativo(seed, k, g, total, randomNumbers = []):
+    if total == 0:
+        return randomNumbers
     
+    if not seed & 1:
+        print("Warning. Seed = %d is not an odd number." % seed)
+        
+    if k < 0:
+        print("Warning. K = %d is not a natural number." % k)
+        
+    m = math.pow(2, g)
+    a = 8 * k + 3 
+    newSeed = (a * seed) % m
+    randomNumbers.append(newSeed / (m - 1))
+    
+    return CongruencialMultiplicativo(newSeed, k, g, total - 1)
+
+def Aditivo(numbers, m, randomNumbers = []):
+    for i in range(0, m):
+        length = len(numbers)
+        seed = (numbers[length - 1] + numbers[i]) % m
+        numbers.append(seed)
+        randomNumbers.append(seed / (m - 1))
+        
+    return randomNumbers
+    
+def CongruencialCuadratico(seed, a, c, g, b, randomNumbers = []):
+    if a & 1:
+        print("Warning. A = %d is not an even number." % a)
+    
+    if not c & 1:
+        print("Warning. C = %d is not an odd number." % c)
+    
+    if ((b - 1) % 4) != 1:
+        print("Warning. (%d - 1) % 4 is not equal 1." % b)
+    
+    m = math.pow(2, g)
+    
+    for i in range(0, m):
+        seed = (a * (seed * seed) + b * seed + c) % m
+        randomNumbers.append(seed)
+    
+    return randomNumbers
+        
 class GeneratorType(Enum):
-    GENERATOR_PRODUCTOS_MEDIOS        = 1
-    GENERATOR_CUADRADOS_MEDIOS        = 2
-    GENERATOR_MULTIPLICADOR_CONSTANTE = 3
-    GENERATOR_LINEAL                  = 4
+    GENERATOR_PRODUCTOS_MEDIOS            = 1
+    GENERATOR_CUADRADOS_MEDIOS            = 2
+    GENERATOR_MULTIPLICADOR_CONSTANTE     = 3
+    GENERATOR_LINEAL                      = 4
+    GENERATOR_CONGRUENCIAL_MULTIPLICATIVO = 5
+    GENERATOR_ADITIVO                     = 6
+    GENERATOR_CONGRUENCIAL_CUADRATICO     = 7
     
 def GenerateRandomNumbers(generatorType):
     length = 0
