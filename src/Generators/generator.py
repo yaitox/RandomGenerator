@@ -24,38 +24,47 @@ def GetMiddleNumber(seed, length):
 def CalculateRandom(number, length):
     return number / math.pow(10, length)
 
-def ProductosMedios(firstSeed, secondSeed, length, total, randomNumbers = []):
-    if total == 0:
-        return randomNumbers
+def ProductosMedios(firstSeed, secondSeed, length, total):
+    randomNumbers = []
     
-    productSeed = firstSeed * secondSeed
-    
-    middleNumber = GetMiddleNumber(productSeed, length)
-    randomNumbers.append(CalculateRandom(middleNumber, length))
-    
-    return ProductosMedios(secondSeed, middleNumber, length, total - 1, randomNumbers)
-
-def CuadradosMedios(seed, length, total, randomNumbers = []):
-    if total == 0:
-        return randomNumbers
+    for i in range(0, total):
+        productSeed = firstSeed * secondSeed
         
-    square = seed * seed
-    
-    middleNumber = GetMiddleNumber(square, length)
-    randomNumbers.append(CalculateRandom(middleNumber, length))
-    
-    return CuadradosMedios(middleNumber, length, total - 1, randomNumbers)
-
-def MultiplicadorConstante(constSeed, seed, length, total, randomNumbers = []):
-    if total == 0:
-        return randomNumbers
+        middleNumber = GetMiddleNumber(productSeed, length)
+        randomNumbers.append(CalculateRandom(middleNumber, length))
         
-    newSeed = constSeed * seed
+        firstSeed = secondSeed
+        secondSeed = middleNumber
+        
+    return randomNumbers
+
+def CuadradosMedios(seed, length, total):
+    randomNumbers = []
     
-    middleNumber = GetMiddleNumber(newSeed, length)
-    randomNumbers.append(CalculateRandom(middleNumber, length))
+    for i in range(0, total):    
+        square = seed * seed
+        
+        middleNumber = GetMiddleNumber(square, length)
+        if middleNumber == 0:
+            return randomNumbers
+        
+        seed = middleNumber
+        randomNumbers.append(CalculateRandom(middleNumber, length))
     
-    return MultiplicadorConstante(constSeed, middleNumber, length, total - 1, randomNumbers)
+    return randomNumbers
+
+def MultiplicadorConstante(seed, constSeed, length, total):
+    randomNumbers = []
+    
+    for i in range(0, total):
+        newSeed = constSeed * seed
+        
+        middleNumber = GetMiddleNumber(newSeed, length)
+        randomNumbers.append(CalculateRandom(middleNumber, length))
+        
+        seed = middleNumber
+    
+    return randomNumbers
 
 def Lineal(seed, k, g, c, total, randomNumbers = []):
     if total == 0:
@@ -105,13 +114,26 @@ def CongruencialCuadratico(seed, a, c, g, b, randomNumbers = []):
         print("Warning. C = %d is not an odd number." % c)
     
     if ((b - 1) % 4) != 1:
-        print("Warning. (%d - 1) % 4 is not equal 1." % b)
+        print("Warning. (%d - 1) mod 4 is not equal 1." % b)
     
     m = math.pow(2, g)
     
     for i in range(0, m):
         seed = (a * (seed * seed) + b * seed + c) % m
         randomNumbers.append(seed)
+    
+    return randomNumbers
+
+def VisualBase(seed, total):
+    randomNumbers = []
+    
+    m = 2 ** 24
+    
+    for i in range(0, total):
+        x_i = (1140671485 * (12820163 + seed)) % m
+        r_i = x_i / (m - 1)
+        randomNumbers.append(r_i)
+        seed = x_i
     
     return randomNumbers
         
